@@ -1,9 +1,10 @@
 import supertest from "supertest";
 import app from "../../src/app";
 import { cleanDB } from "../helpers/clear";
-import signUpFaker from "../factorys/signUp.factory";
+import signUpFaker from "../factories/signUp.factory";
 import httpStatus from "http-status";
 import { faker } from "@faker-js/faker";
+import userFactory from "../factories/user.factory";
 
 const server = supertest(app)
 
@@ -19,5 +20,19 @@ describe('POST /auth', () => {
             .send(user)
         
         expect(response.status).toBe(httpStatus.CREATED)
+    });
+
+    it("should return 200 when login user", async () => {
+        const email = faker.internet.email();
+        const password = faker.lorem.word();
+        await userFactory(email, password)
+        const response = await server.post("/auth/sign-in").send({
+            email,
+            password
+        });
+
+        expect(response.status).toBe(httpStatus.OK);
+        expect(response.body).toEqual({ token: expect.any(String) })
+
     })
 })

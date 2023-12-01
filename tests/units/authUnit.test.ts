@@ -1,6 +1,6 @@
 import authRepository from "../../src/repository/auth.repository";
 import authService from "../../src/service/auth.service"
-import signUpFaker from "../factorys/signUp.factory";
+import signUpFaker from "../factories/signUp.factory";
 
 describe('auth unit tests', () => {
     it("should return 409 when email already register", async () => {
