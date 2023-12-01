@@ -3,6 +3,7 @@ import app from "../../src/app";
 import { cleanDB } from "../helpers/clear";
 import signUpFaker from "../factorys/signUp.factory";
 import httpStatus from "http-status";
+import { faker } from "@faker-js/faker";
 
 const server = supertest(app)
 
@@ -12,7 +13,8 @@ beforeEach(async () => {
 
 describe('POST /auth', () => {
     it("should return 201 when user resgisted", async () => {
-        const user = signUpFaker();
+        const password = faker.lorem.words()
+        const user = signUpFaker(password);
         const response = await server.post("/auth/sign-up")
             .send(user)
         

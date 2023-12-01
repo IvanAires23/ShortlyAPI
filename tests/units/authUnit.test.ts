@@ -13,5 +13,14 @@ describe('auth unit tests', () => {
         expect(response).rejects.toEqual(
             { message: "Email already use", name: "conflict" }
         )
-    })
+    });
+
+    it("should return 400 when password diferent confirmPassword", async () => {
+    
+        const user = signUpFaker()
+        const response = authService.create(user)
+        expect(response).rejects.toEqual(
+            { name: 'badRequest', message: 'Password and confirmpassword not equals' }
+        )
+    });
 })
