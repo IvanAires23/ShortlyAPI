@@ -15,7 +15,7 @@ function validation(schema: ObjectSchema, type: 'body' | 'params') {
         const { error } = schema.validate(req[type], { abortEarly: false })
 
         if (!error) next();
-        else res.status(httpStatus.BAD_REQUEST).send(error.details.map(d => d.message))
+        else res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.details.map(d => d.message))
     }
 }
 
