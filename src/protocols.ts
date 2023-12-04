@@ -9,3 +9,8 @@ export type SignUp = {
     password: string;
     confirmPassword: string
 }
+
+export type SignIn = {
+    email: string;
+    password: string;
+}

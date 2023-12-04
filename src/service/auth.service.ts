@@ -1,6 +1,7 @@
 import { SignUp } from "../protocols";
 import authRepository from "../repository/auth.repository";
 import bcrypt from "bcrypt"
+import * as jwt from "jsonwebtoken"
 
 async function create(body: SignUp) {
     const { email, password, confirmPassword, name } = body;
@@ -16,8 +17,22 @@ async function create(body: SignUp) {
     return user
 }
 
+async function signIn(email: string, password: string) {
+    
+    const user = await authRepository.findByEmail(email)
+    if (!user) throw { name: 'unauthorized', massage: 'Email or password incorrect' }
+    
+    const comparePassword = await bcrypt.compare(password, user.password)
+    if (!comparePassword) throw { name: 'unauthorized', massage: 'Email or password incorrect' }
+    
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+
+    return token
+}
+
 const authService = {
-    create
+    create,
+    signIn
 }
 
 export default authService

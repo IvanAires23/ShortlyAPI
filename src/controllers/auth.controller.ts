@@ -17,8 +17,22 @@ async function create(req: Request, res: Response) {
     }
 }
 
+async function signIn(req: Request, res: Response) {
+
+    const { email, password } = req.body
+
+    try {
+        const token = await authService.signIn(email, password)
+        return res.status(httpStatus.OK).send({ token })
+    } catch (err) {
+        if (err.name === 'unauthorized') return res.status(httpStatus.UNAUTHORIZED).send(err.message)
+        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)
+    }
+}
+
 const authController = {
-    create
+    create,
+    signIn
 }
 
 export default authController
