@@ -14,9 +14,17 @@ function findByEmail(email: string) {
     })
 }
 
+function createSession(id: string, token: string) {
+    return db.collection('sessions').insertOne({
+        id,
+        token
+    })
+}
+
 const authRepository = {
     create,
-    findByEmail
+    findByEmail,
+    createSession
 }
 
 export default authRepository

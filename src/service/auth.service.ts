@@ -27,6 +27,7 @@ async function signIn(email: string, password: string) {
     
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
+    await authRepository.createSession(user.id, token)
     return token
 }
 
