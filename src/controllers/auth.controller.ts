@@ -26,6 +26,7 @@ async function signIn(req: Request, res: Response) {
         return res.status(httpStatus.OK).send({ token })
     } catch (err) {
         if (err.name === 'unauthorized') return res.status(httpStatus.UNAUTHORIZED).send(err.message)
+
         res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)
     }
 }

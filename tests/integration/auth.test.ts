@@ -5,6 +5,7 @@ import signUpFaker from "../factories/signUp.factory";
 import httpStatus from "http-status";
 import { faker } from "@faker-js/faker";
 import userFactory from "../factories/user.factory";
+import bcrypt from "bcrypt";
 
 const server = supertest(app)
 
@@ -24,8 +25,10 @@ describe('POST /auth', () => {
 
     it("should return 200 when login user", async () => {
         const email = faker.internet.email();
-        const password = faker.lorem.word();
-        await userFactory(email, password)
+        const password = faker.lorem.word({ length: 8 });
+        const hash = await bcrypt.hash(password, 10)
+        const user = await userFactory(email, hash)
+        console.log(user)
         const response = await server.post("/auth/sign-in").send({
             email,
             password

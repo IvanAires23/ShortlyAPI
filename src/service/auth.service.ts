@@ -20,10 +20,10 @@ async function create(body: SignUp) {
 async function signIn(email: string, password: string) {
     
     const user = await authRepository.findByEmail(email)
-    if (!user) throw { name: 'unauthorized', massage: 'Email or password incorrect' }
+    if (!user) throw { name: 'unauthorized', message: 'Email or password incorrect' }
     
     const comparePassword = await bcrypt.compare(password, user.password)
-    if (!comparePassword) throw { name: 'unauthorized', massage: 'Email or password incorrect' }
+    if (!comparePassword) throw { name: 'unauthorized', message: 'password incorrect' }
     
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
