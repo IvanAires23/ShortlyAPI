@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { db } from "../config/database";
 
 function create(name: string, email: string, password: string) {
@@ -14,7 +15,7 @@ function findByEmail(email: string) {
     })
 }
 
-function createSession(id: string, token: string) {
+function createSession(id: ObjectId, token: string) {
     return db.collection('sessions').insertOne({
         id,
         token

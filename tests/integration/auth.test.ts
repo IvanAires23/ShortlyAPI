@@ -19,7 +19,7 @@ describe('POST /auth', () => {
         const user = signUpFaker(password);
         const response = await server.post("/auth/sign-up")
             .send(user)
-        
+
         expect(response.status).toBe(httpStatus.CREATED)
     });
 
@@ -27,8 +27,7 @@ describe('POST /auth', () => {
         const email = faker.internet.email();
         const password = faker.lorem.word({ length: 8 });
         const hash = await bcrypt.hash(password, 10)
-        const user = await userFactory(email, hash)
-        console.log(user)
+        await userFactory(email, hash)
         const response = await server.post("/auth/sign-in").send({
             email,
             password
